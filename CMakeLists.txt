@@ -26,7 +26,7 @@ option (ENABLE_SSE2 "Compile with SSE2 instruction set support" OFF)
 option (ENABLE_AVX "Compile with AVX instruction set support" OFF)
 option (ENABLE_AVX2 "Compile with AVX2 instruction set support" OFF)
 
-option (DISABLE_FORTRAN "Disable Fortran wrapper routines" OFF)
+option (DISABLE_FORTRAN "Disable Fortran wrapper routines" ON)
 
 include(GNUInstallDirs)
 
@@ -113,7 +113,7 @@ endif ()
 
 
 if (ENABLE_THREADS)
-  find_package (Threads)
+  find_package (fftw/threads)
 endif ()
 if (Threads_FOUND)
   if(CMAKE_USE_PTHREADS_INIT)
@@ -190,35 +190,35 @@ endif ()
 if (HAVE_SSE2 OR HAVE_AVX)
   set (HAVE_SIMD TRUE)
 endif ()
-file(GLOB           fftw_api_SOURCE                 api/*.c             api/*.h)
-file(GLOB           fftw_dft_SOURCE                 dft/*.c             dft/*.h)
-file(GLOB           fftw_dft_scalar_SOURCE          dft/scalar/*.c      dft/scalar/*.h)
-file(GLOB           fftw_dft_scalar_codelets_SOURCE dft/scalar/codelets/*.c     dft/scalar/codelets/*.h)
-file(GLOB           fftw_dft_simd_SOURCE            dft/simd/*.c        dft/simd/*.h)
+file(GLOB           fftw_api_SOURCE fftw/*.c fftw/*.h)
+file(GLOB           fftw_dft_SOURCE fftw/*.c fftw/*.h)
+file(GLOB           fftw_dft_scalar_SOURCE fftw/dft_scalar/*.c fftw/dft_scalar/*.h)
+file(GLOB           fftw_dft_scalar_codelets_SOURCE fftw/dft_scalar/codelets/*.c fftw/dft_scalar/codelets/*.h)
+file(GLOB           fftw_dft_simd_SOURCE fftw/dft_simd/*.c fftw/dft_simd/*.h)
 
-file(GLOB           fftw_dft_simd_sse2_SOURCE       dft/simd/sse2/*.c   dft/simd/sse2/*.h)
-file(GLOB           fftw_dft_simd_avx_SOURCE        dft/simd/avx/*.c    dft/simd/avx/*.h)
-file(GLOB           fftw_dft_simd_avx2_SOURCE       dft/simd/avx2/*.c   dft/simd/avx2/*.h dft/simd/avx2-128/*.c   dft/simd/avx2-128/*.h)
+file(GLOB           fftw_dft_simd_sse2_SOURCE fftw/dft_simd/sse2/*.c fftw/dft_simd/sse2/*.h)
+file(GLOB           fftw_dft_simd_avx_SOURCE fftw/dft_simd/avx/*.c fftw/dft_simd/avx/*.h)
+file(GLOB           fftw_dft_simd_avx2_SOURCE fftw/dft_simd/avx2/*.c fftw/dft_simd/avx2/*.h fftw/dft_simd/avx2-128/*.c fftw/dft_simd/avx2-128/*.h)
 file(GLOB           fftw_kernel_SOURCE              kernel/*.c          kernel/*.h)
-file(GLOB           fftw_rdft_SOURCE                rdft/*.c            rdft/*.h)
-file(GLOB           fftw_rdft_scalar_SOURCE         rdft/scalar/*.c     rdft/scalar/*.h)
+file(GLOB           fftw_rdft_SOURCE fftw/*.c fftw/*.h)
+file(GLOB           fftw_rdft_scalar_SOURCE fftw/rdft_scalar/*.c fftw/rdft_scalar/*.h)
 
-file(GLOB           fftw_rdft_scalar_r2cb_SOURCE    rdft/scalar/r2cb/*.c
-                                                    rdft/scalar/r2cb/*.h)
-file(GLOB           fftw_rdft_scalar_r2cf_SOURCE    rdft/scalar/r2cf/*.c
-                                                    rdft/scalar/r2cf/*.h)
-file(GLOB           fftw_rdft_scalar_r2r_SOURCE     rdft/scalar/r2r/*.c
-                                                    rdft/scalar/r2r/*.h)
+file(GLOB           fftw_rdft_scalar_r2cb_SOURCE fftw/rdft_scalar/r2cb/*.c
+        fftw/rdft_scalar/r2cb/*.h)
+file(GLOB           fftw_rdft_scalar_r2cf_SOURCE fftw/rdft_scalar/r2cf/*.c
+        fftw/rdft_scalar/r2cf/*.h)
+file(GLOB           fftw_rdft_scalar_r2r_SOURCE fftw/rdft_scalar/r2r/*.c
+        fftw/rdft_scalar/r2r/*.h)
 
-file(GLOB           fftw_rdft_simd_SOURCE           rdft/simd/*.c       rdft/simd/*.h)
-file(GLOB           fftw_rdft_simd_sse2_SOURCE      rdft/simd/sse2/*.c  rdft/simd/sse2/*.h)
-file(GLOB           fftw_rdft_simd_avx_SOURCE       rdft/simd/avx/*.c   rdft/simd/avx/*.h)
-file(GLOB           fftw_rdft_simd_avx2_SOURCE      rdft/simd/avx2/*.c  rdft/simd/avx2/*.h rdft/simd/avx2-128/*.c  rdft/simd/avx2-128/*.h)
+file(GLOB           fftw_rdft_simd_SOURCE fftw/rdft_simd/*.c fftw/rdft_simd/*.h)
+file(GLOB           fftw_rdft_simd_sse2_SOURCE fftw/rdft_simd/sse2/*.c fftw/rdft_simd/sse2/*.h)
+file(GLOB           fftw_rdft_simd_avx_SOURCE fftw/rdft_simd/avx/*.c fftw/rdft_simd/avx/*.h)
+file(GLOB           fftw_rdft_simd_avx2_SOURCE fftw/rdft_simd/avx2/*.c fftw/rdft_simd/avx2/*.h fftw/rdft_simd/avx2-128/*.c fftw/rdft_simd/avx2-128/*.h)
 
 file(GLOB           fftw_reodft_SOURCE              reodft/*.c          reodft/*.h)
-file(GLOB           fftw_simd_support_SOURCE        simd-support/*.c    simd-support/*.h)
-file(GLOB           fftw_libbench2_SOURCE           libbench2/*.c       libbench2/*.h)
-list (REMOVE_ITEM   fftw_libbench2_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/libbench2/useropt.c)
+file(GLOB           fftw_simd_support_SOURCE        fftw/simd-support/*.c    fftw/simd-support/*.h)
+file(GLOB           fftw_libbench2_SOURCE           fftw/libbench2/*.c       fftw/libbench2/*.h)
+list (REMOVE_ITEM   fftw_libbench2_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/fftw/libbench2/useropt.c)
 
 set(SOURCEFILES
     ${fftw_api_SOURCE}
@@ -241,17 +241,17 @@ set(SOURCEFILES
 )
 
 set(fftw_par_SOURCE
-    threads/api.c
-    threads/conf.c
-    threads/ct.c
-    threads/dft-vrank-geq1.c
-    threads/f77api.c
-    threads/hc2hc.c
-    threads/rdft-vrank-geq1.c
-    threads/vrank-geq1-rdft2.c)
+        fftw/threads/api.c
+        fftw/threads/conf.c
+        fftw/threads/ct.c
+        fftw/threads/dft-vrank-geq1.c
+        fftw/threads/f77api.c
+        fftw/threads/hc2hc.c
+        fftw/threads/rdft-vrank-geq1.c
+        fftw/threads/vrank-geq1-rdft2.c)
 
-set (fftw_threads_SOURCE ${fftw_par_SOURCE} threads/threads.c)
-set (fftw_omp_SOURCE ${fftw_par_SOURCE} threads/openmp.c)
+set (fftw_threads_SOURCE ${fftw_par_SOURCE} fftw/threads/threads.c)
+set (fftw_omp_SOURCE ${fftw_par_SOURCE} fftw/threads/openmp.c)
 
 
 include_directories (.)
@@ -280,19 +280,19 @@ set (PREC_SUFFIX)
 if (ENABLE_FLOAT)
   set (FFTW_SINGLE TRUE)
   set (BENCHFFT_SINGLE TRUE)
-  set (PREC_SUFFIX f)
+ # set (PREC_SUFFIX f)
 endif ()
 
 if (ENABLE_LONG_DOUBLE)
   set (FFTW_LDOUBLE TRUE)
   set (BENCHFFT_LDOUBLE TRUE)
-  set (PREC_SUFFIX l)
+#  set (PREC_SUFFIX l)
 endif ()
 
 if (ENABLE_QUAD_PRECISION)
   set (FFTW_QUAD TRUE)
   set (BENCHFFT_QUAD TRUE)
-  set (PREC_SUFFIX q)
+ # set (PREC_SUFFIX q)
 endif ()
 set (fftw3_lib fftw3${PREC_SUFFIX})
 
@@ -305,7 +305,7 @@ endif ()
 
 add_library (${fftw3_lib} ${SOURCEFILES})
 target_include_directories (${fftw3_lib} INTERFACE $<INSTALL_INTERFACE:include>)
-if (MSVC AND NOT (CMAKE_C_COMPILER_ID STREQUAL "Intel"))
+if (MSVC)
   target_compile_definitions (${fftw3_lib} PRIVATE /bigobj)
 endif ()
 if (HAVE_SSE)
@@ -363,12 +363,12 @@ install(TARGETS ${fftw3_lib}
           LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
           ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-install (FILES api/fftw3.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-if (EXISTS ${CMAKE_SOURCE_DIR}/api/fftw3.f)
-  install (FILES api/fftw3.f api/fftw3l.f03 api/fftw3q.f03 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install (FILES fftw/fftw3.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if (EXISTS ${CMAKE_SOURCE_DIR}/fftw/fftw3.f)
+  install (FILES fftw/fftw3.f fftw/fftw3l.f03 fftw/fftw3q.f03 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif ()
-if (EXISTS ${CMAKE_SOURCE_DIR}/api/fftw3.f03.in)
-  file (READ api/fftw3.f03.in FFTW3_F03_IN OFFSET 42)
+if (EXISTS ${CMAKE_SOURCE_DIR}/fftw/fftw3.f03.in)
+  file (READ fftw/fftw3.f03.in FFTW3_F03_IN OFFSET 42)
   file (WRITE ${CMAKE_CURRENT_BINARY_DIR}/fftw3.f03 "! Generated automatically.  DO NOT EDIT!\n\n")
   file (APPEND ${CMAKE_CURRENT_BINARY_DIR}/fftw3.f03 "  integer, parameter :: C_FFTW_R2R_KIND = ${C_FFTW_R2R_KIND}\n\n")
   file (APPEND ${CMAKE_CURRENT_BINARY_DIR}/fftw3.f03 "${FFTW3_F03_IN}")
@@ -377,7 +377,7 @@ endif ()
 
 if (BUILD_TESTS)
 
-  add_executable (bench ${fftw_libbench2_SOURCE} tests/bench.c tests/hook.c tests/fftw-bench.c)
+  add_executable (bench ${fftw_libbench2_SOURCE} fftw/tests/bench.c fftw/tests/hook.c fftw/tests/fftw-bench.c)
 
   if (ENABLE_THREADS AND NOT WITH_COMBINED_THREADS)
     target_link_libraries (bench ${fftw3_lib}_threads)
